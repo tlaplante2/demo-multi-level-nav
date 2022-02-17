@@ -9,6 +9,21 @@ header {
     margin: 0 auto;
 }
 
+h1 {
+    margin-left: 1rem;
+}
+
+svg,
+svg path{
+    visibility: hidden;
+    opacity: 0;
+    fill: white;
+}
+
+svg {
+    width: 1.25rem;
+}
+
 ul.menu {
     background-color: rgb(19, 19, 19);
 }
@@ -25,10 +40,19 @@ ul.menu a {
 }
 
 ul.menu a:hover,
-ul.menu a:active {
+ul.menu a:active,
+ul.menu a:hover path {
     background-color: rgb(66, 66, 66);
 }
 
+ul.sub-menu > li a:hover,
+ul.menu > li a:hover     {
+    color: rgb(197, 141, 250);
+}
+
+ul.menu a:hover path {
+    fill: rgb(197, 141, 250);
+}
 /* style secondary level menu to look different */
 
 ul.sub-menu > li a {
@@ -39,6 +63,65 @@ ul.sub-menu {
     padding: 0 1.25rem;
 }
 
-@media screen and (min-width: 26.5625rem) {
+@media screen and (min-width: 60rem) {
+    ul.menu {
+        display: flex;
+    }
+
+    ul.menu li {
+        flex-grow: 1;
+        flex-shrink: 0;
+        flex-basis: auto;
+        text-align: center;
+    }
+    /* step 2, position styles of the dropdown and then hide it  */
     
+    ul.sub-menu {
+        padding: 0;
+        position: absolute; /* removes space given to dropdown/ removes element from layout*/
+        background-color: rgb(19, 19, 19);
+        border-radius: 0 0 .3125rem .3125rem;
+        top: 3.5rem;
+        /* position left or right if you want, keep the links nowrap  */
+        right: -3.75rem;
+        border: 1px solid rgba(58, 58, 58, 0.432);
+        /* hide the sub-menu but make it accessible to screen readers and keyboards */
+        visibility: hidden;
+        opacity: 0;
+        z-index: 1;
+        /* when adding a transition state, add it to the element that is changing, before it changes */
+        transition: all 0.5s ease;
+    }
+
+    ul.menu li {
+        position: relative;
+        white-space: nowrap;
+    }
+    
+    /* step 3: add hover states that show the submenus */
+
+    ul.menu li:hover > ul {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    /* step 5: add accessibility with the :focus-within state on the li elements */
+    ul.menu li:focus-within > ul, 
+    ul.menu li > ul:focus {
+        visibility: visible; /* allows you to tab to all elements / accessibility */
+        display: block;
+        opacity: 1;
+    }
+
+    svg,
+    svg path{
+        visibility: visible;
+        opacity: 1;
+        fill: white;
+    }
+
+    svg {
+        width: .625rem;
+    }
+
 }
